@@ -4,3 +4,4 @@
 lib/*
 !lib/*.hs
 !lib/*.py
+.vscode
