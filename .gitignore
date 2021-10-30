@@ -5,3 +5,5 @@ lib/*
 !lib/*.hs
 !lib/*.py
 .vscode
+*/*/AOC.hs
+__pycache__
