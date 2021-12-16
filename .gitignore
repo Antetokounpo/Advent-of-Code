@@ -7,3 +7,4 @@ lib/*
 .vscode
 */*/AOC.hs
 __pycache__
+cookies.py
