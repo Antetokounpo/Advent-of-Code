@@ -1,10 +1,7 @@
-*/*/*
-!*/*/*.hs
-!*/*/*.py
-lib/*
-!lib/*.hs
-!lib/*.py
 .vscode
-*/*/AOC.hs
 __pycache__
 cookies.py
+*.hi
+*.o
+tmp
+input
