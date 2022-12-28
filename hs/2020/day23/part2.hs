@@ -30,4 +30,5 @@ main = do
     let index = Vector.head $ 1 `Vector.elemIndices` finalCups
     let a = finalCups Vector.! ((index+1) `mod` cupNumber)
     let b = finalCups Vector.! ((index+2) `mod` cupNumber)
-    print (a*b)
+    print a
+    print b
