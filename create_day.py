@@ -1,36 +1,46 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
+import re
 import sys
+
 import requests
 from cookies import cookies
 
-y, d = sys.argv[1:]
+supported_languages = ['py', 'hs']
+file_templates = {
+    'py': "from AOC import read_input\n\ninp = read_input()",
+    'hs': "import AOC\n\nmain = do\n    inp <- readInput\n    print inp"
+}
 
-path = "{y}/day{d}".format(y=y, d=d)
+year, day, language = sys.argv[1:]
 
-if not os.path.exists(path):
-    os.makedirs(path)
+if not re.fullmatch(r"^\d{4}$", year):
+    print(f"Année invalide: {year}")
+    sys.exit(1)
 
-file_template = """
-from AOC import read_input
+if not re.fullmatch(r"^\d{1,2}$", day):
+    print(f"Jour invalide: {day}")
+    sys.exit(1)
 
-inp = read_input()
-"""
+if language not in supported_languages:
+    print(f"Langage '{language}' non supporté")
+    sys.exit(1)
 
-with open(os.path.join(path, "part1.py"), 'a') as f:
-    f.write(file_template)
+dirpath = os.path.join(language, year, f"day{day}")
+
+# mode append pour éviter les accidents
+with open(os.path.join(dirpath, f"part1.{language}"), 'a') as f:
+    f.write(file_template[language])
     f.close()
 
 r = requests.get(f"https://adventofcode.com/{y}/day/{d}/input", cookies=cookies)
 if r.status_code == 200:
-    with open(os.path.join(path, "input"), 'wb') as f:
+    with open(os.path.join(dirpath, 'input'), 'wb') as f:
         f.write(r.content)
         f.close()
 else:
+    print("Erreur dans la requête")
     print(r.text)
-
-
-
-
+    sys.exit(1)
 
