@@ -5,3 +5,5 @@ cookies.py
 *.o
 tmp
 input
+*.egg-info
+build
