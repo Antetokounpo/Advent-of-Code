@@ -10,10 +10,11 @@ import time
 import requests
 from cookies import cookies
 
-SUPPORTED_LANGUAGES = ['py', 'hs']
+SUPPORTED_LANGUAGES = ['py', 'hs', 'cpp']
 FILE_TEMPLATES = {
     'py': "from AOC import read_input\n\ninp = read_input()",
-    'hs': "import AOC\n\nmain = do\n    inp <- readInput\n    print inp"
+    'hs': "import AOC\n\nmain = do\n    inp <- readInput\n    print inp",
+    'cpp': "#include<iostream>\n\nint main(int argc, char** argv){\n    return 0;\n}\n"
 }
 
 def get_dirpath(language, year, day):
@@ -40,26 +41,28 @@ def create(language, year, day, part):
         with open(input_file_path, 'wb') as f:
             f.write(get_input(year, day))
 
-def _run_py(dirpath, part):
+def run_py(dirpath, part):
     env = os.environ.copy()
-    env['PYTHONPATH'] = 'lib'
+    env['PYTHONPATH'] = 'py/lib'
     process = subprocess.Popen(['python3', os.path.join(dirpath, f"part{part}.py"), os.path.join(dirpath, "input")], stdout=subprocess.PIPE, env=env)
     stdout = process.communicate()[0]
 
     return stdout
 
-def _compile_hs(dirpath, part):
-    r = os.system(f"ghc -O2 -ilib -o {os.path.join('tmp', 'part')} {os.path.join(dirpath, 'path{part}.hs')}")
+def compile_hs(dirpath, part):
+    r = os.system(f"ghc -O2 -ilib -o {os.path.join('tmp', 'part')} {os.path.join(dirpath, f'part{part}.hs')}")
     if r != 0:
         sys.exit(1)
 
-def _run_hs(dirpath):
-    process = subprocess.Popen([os.path.join("tmp", "part"), os.path.join(dirpath, "input")], stdout=subprocess.PIPE)
-    stdout = process.communicate()[0]
+def compile_cpp(dirpath, part):
+    r = os.system(f"g++ -O3 -lfmt -o {os.path.join('tmp', 'part')} {os.path.join(dirpath, f'part{part}.cpp')}")
+    if r != 0:
+        sys.exit(1)
 
-    return stdout
+def run_compiled(dirpath):
+    os.system(' '.join([os.path.join("tmp", "part"), os.path.join(dirpath, "input")]))
 
-def run(language, year, day, part):
+def run(language, year, day, part) -> int:
     dirpath = get_dirpath(language, year, day)
 
     input_file_path = os.path.join(dirpath, "input")
@@ -69,15 +72,25 @@ def run(language, year, day, part):
 
     if language == 'py':
         start_time = time.time()
-        stdout = _run_py(dirpath, part)
-        print(f"Time: {int((time.time()-start_time)*1e3)} ms")
-        print(f"Result: {stdout.decode('utf8').strip()}")
+        stdout = run_py(dirpath, part)
+        chrono = int((time.time()-start_time)*1e3)
+        print(f"Time: {chrono} ms")
+        print(stdout.decode('utf8').strip())
     elif language == 'hs':
-        _compile_hs(dirpath, part)
+        compile_hs(dirpath, part)
         start_time = time.time()
-        stdout = _run_hs(dirpath)
-        print(f"Time: {int((time.time()-start_time)*1e3)} ms")
-        print(f"Result: {stdout.decode('utf8').strip()}")
+        run_compiled(dirpath)
+        chrono = int((time.time()-start_time)*1e3)
+        print(f"Time: {chrono} ms")
+        #print(f"Result: {stdout.decode('utf8').strip()}")
+    elif language == 'cpp':
+        compile_cpp(dirpath, part)
+        start_time = time.time()
+        run_compiled(dirpath)
+        chrono = int((time.time()-start_time)*1e3)
+        print(f"Time: {chrono} ms")
+    
+    return chrono
 
 def get_input(y, d):
     r = requests.get(f"https://adventofcode.com/{y}/day/{d}/input", cookies=cookies)
