@@ -1,3 +1,16 @@
 # Advent-of-Code
 
-My solutions to [Advent of Code](https://adventofcode.com/) problems. So far, only 2020 has been completed.
+Multilingual solutions to [Advent of Code](https://adventofcode.com/) problems in Python, Haskell and/or C++. So far, only 2020 has been completed.
+
+| Year | Progress | Total |
+| ---  | ---      | ---   |
+| [2024] | ⭐⭐⭐⭐ | 4/50 |
+| [2023] | ⭐⭐⭐⭐⭐⭐⭐ | 7/50 |
+| [2022] | ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ | 20/50 |
+| [2021] | ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ | 30/50 |
+| [2020] | ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ | 50/50 |
+| [2019] | ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ | 13/50 |
+| [2018] | ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ | 14/50 |
+| [2017] | ⭐⭐⭐⭐ | 4/50 |
+| [2016] |  | 0/50 |
+| [2015] | ⭐ | 1/50 |
