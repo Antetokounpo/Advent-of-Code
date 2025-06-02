@@ -10,7 +10,6 @@ def next_cycle():
     global cycles
     cycles += 1
     if (cycles == 20) or ((cycles - 20) % 40 == 0):
-        print(cycles, x)
         signals.append(cycles*x)
 
 for i in inp:
