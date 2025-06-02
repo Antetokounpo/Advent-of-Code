@@ -3,8 +3,6 @@
 import argparse
 from importlib import import_module
 import os
-import re
-import subprocess
 import sys
 import time
 
@@ -20,6 +18,9 @@ def get_dirpath(year, day):
     os.makedirs(dirpath, exist_ok=True)
 
     return dirpath
+
+def get_filepath(year, day, part):
+    return os.path.join(get_dirpath(year, day), f"part{part}.py")
 
 def create(year, day, part):
     dirpath = get_dirpath(year, day)
@@ -65,16 +66,22 @@ def get_input(y, d):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=['create', 'run'])
     parser.add_argument("year", type=int, choices=range(2015, 2023))
     parser.add_argument("day", type=int, choices=range(1, 26))
     parser.add_argument("part", type=int, choices=[1, 2])
     args = parser.parse_args()
 
-    if args.command == 'create':
-        create(str(args.year), str(args.day), args.part)
-    elif args.command == 'run':
-        run(str(args.year), str(args.day), args.part)
+    year = str(args.year)
+    day = str(args.day)
+    part = args.part
+
+    filepath = os.path.isfile(get_filepath(year, day, part))
+
+    if os.path.isfile(filepath):
+        run(year, day, part)
+    else:
+        print(f"{filepath} created.")
+        create(year, day, part)
 
 
 if __name__ == '__main__':
